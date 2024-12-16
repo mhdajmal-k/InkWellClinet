@@ -14,7 +14,6 @@ interface BlogListingProps {
 
 
 export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who }) => {
-    alert(who)
     const navigate = useNavigate()
     return (
         <div className="container p-4 min-h-screen ">

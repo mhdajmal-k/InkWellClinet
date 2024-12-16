@@ -81,7 +81,6 @@ export const updateUserData = createAsyncThunk(
   "user/updateUserData",
   async (userData: IUserProfile, { rejectWithValue }) => {
     try {
-      alert("hi");
       const response = await axiosInstance.put(GETUESRPROFILE, userData);
       console.log(response.data);
       return response.data;
@@ -128,7 +127,6 @@ export const crateBlog = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      alert("got error");
       console.log(error);
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
@@ -149,7 +147,6 @@ export const getBlogs = createAsyncThunk(
       const response = await axiosInstance.get(GETBLOGS);
       return response.data;
     } catch (error) {
-      alert("got error");
       console.log(error);
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
@@ -167,11 +164,9 @@ export const getUserBlogs = createAsyncThunk(
   "user/getBlogs",
   async (_, { rejectWithValue }) => {
     try {
-      alert("hit");
       const response = await axiosInstance.get(GETUSERBLOGS);
       return response.data;
     } catch (error) {
-      alert("got error");
       console.log(error);
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
