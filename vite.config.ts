@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: "/", // added to the base
   server: {
-    port: 3002,
+    port: 3005,
   },
   define: {
     global: {}, // Add this line to define `global` as an empty object
