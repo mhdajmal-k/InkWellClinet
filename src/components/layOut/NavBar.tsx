@@ -73,7 +73,7 @@ const NavBar: React.FC = () => {
 
                         </Tooltip>
 
-                        <span className="text-sm font-medium">{userName?.user}</span></div>) : (
+                        <span className="text-sm font-medium">{userName?.user}</span>   <Button className='bg-black text-white' onClick={() => { navigate("/dashboard") }}>Blogs</Button></div>) : (
                         <Link to="/signup" className="text-lg bg-black text-white">
                             <Button className='bg-black text-white' >Get Started</Button>
                         </Link>)

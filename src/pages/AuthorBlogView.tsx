@@ -35,7 +35,7 @@ const ViewBlogAuthorSide: React.FC = () => {
     }, [blogId, dispatch]);
     const handelDelete = async () => {
         try {
-            alert("delete")
+         
             const response = await dispatch(DeleteBlog(blogId as string)).unwrap();
             setBlogs(response.result)
             toast(<CustomToast message={response.message || 'Failed to fetch blog'} type="success" />);

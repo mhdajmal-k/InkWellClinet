@@ -41,13 +41,13 @@ const SignUpForm: React.FC = () => {
 
     const formik = useFormik({
         initialValues: {
-            firstName: 'ajmal',
-            lastName: 'muhammed',
-            phone: '7025862597',
-            email: 'ajmalchundappuram@gmail.com',
-            dob: '15-12-2022',
-            password: '@Ajmal111',
-            confirmPassword: '@Ajmal111',
+            firstName: '',
+            lastName: '',
+            phone: '',
+            email: '',
+            dob: '',
+            password: '',
+            confirmPassword: '',
 
         },
         validationSchema: signUpValidationSchema,
