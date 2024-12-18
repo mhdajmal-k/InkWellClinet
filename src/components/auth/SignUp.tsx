@@ -67,7 +67,6 @@ const SignUpForm: React.FC = () => {
 
                 const response = await dispatch(signUpUser(signUpData)).unwrap();
                 if (response) {
-                    console.log(response, "is the response")
                     localStorage.setItem('user', JSON.stringify(response.result))
 
                     toast(<CustomToast message={response.message} type="success" />);
@@ -178,7 +177,7 @@ const SignUpForm: React.FC = () => {
                                     variant="bordered"
                                 />
                                 {formik.errors.dob && formik.touched.phone && (
-                                    <div className="text-red-500 text-xs">{formik.errors.dob}</div>
+                                    <div className="text-red-500 text-xs">{formik.errors.phone}</div>
                                 )}
                             </div>
 
@@ -242,9 +241,10 @@ const SignUpForm: React.FC = () => {
                             </Button>
                         ) : (
                             <Button
-                                color="primary"
+                                color={preferredArticles.length
+                                    == 0 ? "default" : "primary"}
                                 type={preferredArticles.length === 0 ? "button" : "submit"}
-                                className={`w-full ${preferredArticles.length === 0 ? "disabled cursor-not-allowed" : ""}`}
+                                className={`w-full ${preferredArticles.length === 0 ? "disabled cursor-not-allowed " : ""}`}
                             >
                                 Sign Up
                             </Button>
@@ -321,10 +321,11 @@ const SignUpForm: React.FC = () => {
                             color="primary"
                             onPress={() => {
                                 if (preferredArticles.length === 0) {
+                                    setShowModal(false)
                                     toast("Please select at least one category");
                                 } else {
                                     setShowModal(false);
-                                    // Add any additional logic here
+
                                 }
                             }}
                             className="px-4 py-2"

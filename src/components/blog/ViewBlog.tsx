@@ -11,7 +11,6 @@ const ViewOneBlog: React.FC<BlogListingProps> = ({ blogs }) => {
     let paragraphs
     if (blogs) {
         paragraphs = blogs?.content.split(/\r?\n+/) || [];
-        console.log(blogs?.likes, "is the blogs")
     }
 
     return (
@@ -24,18 +23,11 @@ const ViewOneBlog: React.FC<BlogListingProps> = ({ blogs }) => {
                     </h1>
                     <LikeButton blogId={blogs?._id} like={blogs?.likes} dislike={blogs?.dislikes} />
                     <div className="flex items-center gap-4">
-                        {/* <div className="h-10 w-10">
-                            <img
-                                src={blogs?.author.firstName}
-                                alt="card-image"
-                                className="h-full w-full object-cover rounded-full"
-                            />
-                        </div> */}
+
                         <div className="flex items-center gap-2 text-l font-bold text-muted-foreground">
                             <span>{blogs?.author?.firstName}</span>
 
                         </div>
-                        {/* <time className='text-end'>{new Date(blogs?.createdAt).toLocaleDateString()}</time> */}
                         {blogs?.createdAt.slice(0, 10)}
                     </div>
                     <div className='p-3'>

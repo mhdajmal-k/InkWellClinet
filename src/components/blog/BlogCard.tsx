@@ -15,6 +15,7 @@ interface BlogListingProps {
 
 export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who }) => {
     const navigate = useNavigate()
+
     return (
         <div className="container p-4 min-h-screen ">
             <div className="flex justify-start">
@@ -37,32 +38,32 @@ export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who
                             <div className="flex">
                                 <CardHeader className="m-0 w-3/6 shrink-0 rounded-r-none overflow-hidden">
                                     <img
-                                        src={value.image}
+                                        src={value?.image}
                                         alt="card-image"
                                         className="h-full w-full object-cover rounded-md"
                                     />
                                 </CardHeader>
                                 <CardBody className="p-6">
                                     <span className="text-base w-2/4 text-center text-black-600 mb-4 mt-1 font-medium bg-gray-400 rounded-md">
-                                        {value.category}
+                                        {value?.category}
                                     </span>
                                     <h4 className="mb-2 text-blue-gray-700 text-lg font-bold">
-                                        {value.title}
+                                        {value?.title}
                                     </h4>
                                     <p className="mb-8 text-gray-600 font-normal leading-relaxed">
-                                        {value.content.substring(0, 150)}
+                                        {value?.content.substring(0, 150)}
                                     </p>
-                                    {who == "user" ? (<Button
+                                    {who == "users" ? (<Button
                                         className="flex items-center gap-2 transition-colors hover:bg-blue-500 bg-blue-600 text-white"
-                                        onClick={() => navigate(`/blog/${value._id}`)}
+                                        onClick={() => navigate(`/blog/${value?._id}`)}
                                     >
                                         Read More {" -->"}
-                                    </Button>) : (<Button
+                                    </Button>) : who == "author" ? (<Button
                                         className="flex items-center gap-2 transition-colors hover:bg-blue-500 bg-blue-600 text-white"
                                         onClick={() => navigate(`/authorblog/${value._id}`)}
                                     >
                                         Read More {" -->"}
-                                    </Button>)}
+                                    </Button>) : ""}
 
                                 </CardBody>
                             </div>
@@ -74,9 +75,9 @@ export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who
                                             alt="author-avatar"
                                             className="h-10 w-10 rounded-full"
                                         /> */}
-                                        <h6 className="font-semibold text-gray-700">{value.author.firstName}</h6>
+                                        <h6 className="font-semibold text-gray-700">{value?.author?.firstName}</h6>
                                     </div>
-                                    <h1>{new Date(value.createdAt).toLocaleDateString("en-US")}</h1>
+                                    <h1>{new Date(value?.createdAt).toLocaleDateString("en-US")}</h1>
                                 </CardFooter>
                             </div>
                         </Card>

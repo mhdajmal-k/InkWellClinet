@@ -4,10 +4,12 @@ import {
   CREATEBLOG,
   DELETEBLOGS,
   DISLIKEBLOGS,
+  EDITEBLOGS,
   GETBLOGS,
   GETUESRPROFILE,
   GETUSERBLOGS,
   LIKEBLOGS,
+  UPDATEUESRPROFILE,
   USERLOGIN,
   USERLOGOUT,
   USERSIGNUP,
@@ -62,7 +64,6 @@ export const getUserData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(GETUESRPROFILE);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       let errorMessage = "Network error. try again later.";
@@ -81,8 +82,7 @@ export const updateUserData = createAsyncThunk(
   "user/updateUserData",
   async (userData: IUserProfile, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put(GETUESRPROFILE, userData);
-      console.log(response.data);
+      const response = await axiosInstance.put(UPDATEUESRPROFILE, userData);
       return response.data;
     } catch (error) {
       let errorMessage = "Network error. try again later.";
@@ -127,7 +127,6 @@ export const crateBlog = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log(error);
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
         if (error.response) {
@@ -147,7 +146,6 @@ export const getBlogs = createAsyncThunk(
       const response = await axiosInstance.get(GETBLOGS);
       return response.data;
     } catch (error) {
-      console.log(error);
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
         if (error.response) {
@@ -167,7 +165,6 @@ export const getUserBlogs = createAsyncThunk(
       const response = await axiosInstance.get(GETUSERBLOGS);
       return response.data;
     } catch (error) {
-      console.log(error);
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
         if (error.response) {
@@ -205,8 +202,37 @@ export const DeleteBlog = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.patch(`${DELETEBLOGS}/${id}`);
+
       return response.data;
     } catch (error) {
+      let errorMessage = "An unknown error occurred";
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          errorMessage = error.response.data.message || "Server error";
+        } else if (error.request) {
+          errorMessage = "Network error. Please check your connection.";
+        }
+      }
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+export const editBlog = createAsyncThunk(
+  "user/editBlog",
+  async (
+    { id, updateData }: { id: string; updateData: FormData },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axiosInstance.put(
+        `${EDITEBLOGS}/${id}`,
+        updateData
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      console.log("error");
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
         if (error.response) {

@@ -21,7 +21,6 @@ const DashBoard: React.FC = () => {
     const fetchBlogs = async () => {
         try {
             const response = await dispatch(getUserBlogs()).unwrap();
-            console.log(response)
             setBlogs(response.result.blogs);
 
         } catch (error: any) {

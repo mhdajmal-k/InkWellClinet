@@ -46,14 +46,10 @@ const CreateArticle: React.FC = () => {
             const formData = new FormData()
             formData.append('title', articleName)
             formData.append('content', description)
-            console.log(selectedImage, "is the image  ")
             if (selectedImage) {
                 formData.append('image', selectedImage);
             }
             formData.append('category', category)
-            for (const [key, value] of formData.entries()) {
-                console.log(key, value);
-            }
 
             const response = await dispatch(crateBlog(formData)).unwrap();
             toast(<CustomToast message={response.message} type="success" />);

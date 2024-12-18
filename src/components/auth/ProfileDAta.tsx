@@ -32,7 +32,6 @@ const ProfileDisplay = () => {
         const fetchProfile = async () => {
             try {
                 const response = await dispatch(getUserData()).unwrap();
-                console.log(response, "in the data")
                 if (response) {
                     setProfileData({
                         firstName: response.result.firstName,
@@ -73,9 +72,7 @@ const ProfileDisplay = () => {
             };
 
             const response = await dispatch(updateUserData(userData)).unwrap();
-            console.log(response, "in the data")
             if (response) {
-                console.log("Updated Profile Data:", profileData);
                 toggleEditMode();
                 toast(<CustomToast message={response.message} type="success" />);
             }

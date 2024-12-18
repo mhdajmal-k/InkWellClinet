@@ -22,7 +22,6 @@ const DashBoard: React.FC = () => {
     const fetchBlogs = async () => {
         try {
             const response = await dispatch(getBlogs()).unwrap();
-            console.log(response)
             setBlogs(response.result.blogs);
             setPreference(response.result.preferences
             );

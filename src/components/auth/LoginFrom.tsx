@@ -54,7 +54,6 @@ const LoginForm: React.FC = () => {
 
                 const response = await dispatch(loginUser(signUpData)).unwrap();
                 if (response) {
-                    console.log(response, "is the response")
                     localStorage.setItem('user', JSON.stringify(response.result))
                     toast(<CustomToast message={response.message} type="success" />);
 

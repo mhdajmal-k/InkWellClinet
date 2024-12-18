@@ -7,6 +7,7 @@ import ViewBlogUserSide from '../pages/BlogView';
 import Profile from '../pages/Profile';
 import ViewBlogUser from '../pages/YourBlogs';
 import ViewBlogAuthorSide from '../pages/AuthorBlogView';
+import EditBlogPage from '../pages/EditBlog';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const SignUpPage = lazy(() => import('../pages/SignUpPage'));
@@ -33,6 +34,7 @@ const AppRoutes: React.FC = () => {
                         <Route path="/writeBlog" element={<WriteBlog />} />
                         <Route path="/blog/:blogId" element={<ViewBlogUserSide />} />
                         <Route path="/authorblog/:blogId" element={<ViewBlogAuthorSide />} />
+                        <Route path="/editBlog/:blogId" element={<EditBlogPage />} />
                         <Route path="/yourBlog" element={<ViewBlogUser />} />
                     </Route>
 
