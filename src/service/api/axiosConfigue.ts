@@ -11,40 +11,33 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// axiosInstance.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   async (error) => {
-//     const requestedApi = error.config;
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const requestedApi = error.config;
 
-//     if (
-//       error.response.status === 401 &&
-//       error.response.data?.message === "Authorization denied. Invalid token"
-//     ) {
-//       try {
-//         if (error.response.data.result == "user") {
-//           const response = await axiosInstance.post("/api/user/refreshToken");
-//           if (response.status == 200) {
-//             return axiosInstance(requestedApi);
-//           }
-//         } else if (error.response.data.result == "lawyer") {
-//           const response = await axiosInstance.post("/api/lawyer/refreshToken");
+    if (
+      error.response.status === 401 &&
+      error.response.data?.message === "Authorization denied. Invalid token"
+    ) {
+      try {
+        if (error.response.data) {
+          const response = await axiosInstance.post("/api/user/refreshToken");
+          console.log(response);
+          if (response.status == 201) {
+            return axiosInstance(requestedApi);
+          }
+        }
+      } catch (error: any) {
+        console.log(error);
+        return Promise.reject(error);
+      }
+    }
 
-//           if (response.status == 200) {
-//             return axiosInstance(requestedApi);
-//           }
-//         }
-//       } catch (error: any) {
-//         // if (error?.response.data.result.user == "user") {
-//         // }
-
-//         return Promise.reject(error);
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;

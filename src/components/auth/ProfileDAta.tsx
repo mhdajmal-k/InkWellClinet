@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { getUserData, updateUserData } from "../../store/slices/userThunk";
 import { toast } from "sonner";
+import { preferredArticleCategories } from "../../utils/enums/preferedCategory";
 
 // Updated interface to match IUserProfile
 export interface ProfileData {
@@ -15,18 +16,24 @@ export interface ProfileData {
     email: string;
     dob: string;
     phone?: string;
+    articlePreferences: string[]
 }
 
 const ProfileDisplay = () => {
     const dispatch: AppDispatch = useDispatch()
     const [isEditing, setIsEditing] = useState(false);
+    const [handleUpdatePreferences, setHandlePreferences] = useState<boolean>(false);
     const [profileData, setProfileData] = useState<ProfileData>({
         firstName: "",
         lastName: "",
         email: "",
         dob: "", // Empty string instead of undefined
-        phone: "", // Optional, can be empty string
+        phone: "",
+        articlePreferences: [] // Optional, can be empty string
     });
+    const setHandleUpdatePreferences = () => {
+        setHandlePreferences((prev) => !prev);
+    }
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -38,7 +45,8 @@ const ProfileDisplay = () => {
                         lastName: response.result.lastName,
                         email: response.result.email,
                         dob: response.result.dob || "", // Ensure dob is a string
-                        phone: response.result.phone || "", // Ensure phone is a string
+                        phone: response.result.phone || "",
+                        articlePreferences: response.result.articlePreferences // Ensure phone is a string
                     });
                 }
             } catch (error: any) {
@@ -55,6 +63,12 @@ const ProfileDisplay = () => {
             [name]: value,
         }));
     };
+    const toggleArticlePreference = (category: string) => {
+        setProfileData((preData) => {
+            const updatedPreferences = preData.articlePreferences.includes(category) ? preData.articlePreferences.filter(pre => pre !== category) : [...preData.articlePreferences, category]
+            return { ...preData, articlePreferences: updatedPreferences }
+        })
+    }
 
     const toggleEditMode = () => {
         setIsEditing((prev) => !prev);
@@ -68,7 +82,8 @@ const ProfileDisplay = () => {
                 lastName: profileData.lastName,
                 email: profileData.email,
                 dob: profileData.dob,
-                phone: profileData.phone || undefined, // Convert empty string to undefined if needed
+                phone: profileData.phone || undefined,
+                articlePreferences: profileData.articlePreferences || []
             };
 
             const response = await dispatch(updateUserData(userData)).unwrap();
@@ -177,6 +192,46 @@ const ProfileDisplay = () => {
                                 ) : (
                                     <span>{profileData.phone || 'N/A'}</span>
                                 )}
+                            </div>
+                            <Button color="primary" className="w-1/2 mt-4" onClick={setHandleUpdatePreferences}>Update Preferences</Button>
+                            <div className={`${!handleUpdatePreferences ? "hidden" : ""}`}>
+                                <label className="block my-5">articlePreferences</label>
+                                <div className="flex flex-wrap gap-4 my-3">
+                                    {preferredArticleCategories.map((category) => {
+                                        const IconComponent = category.Icon
+                                        return (
+                                            <div key={category.name} className="flex items-center gap-3">
+                                                {isEditing ? (
+                                                    <input type="checkbox"
+                                                        aria-label={category.name}
+                                                        className="w-4 h-4"
+                                                        checked={profileData.articlePreferences.includes(category.name)}
+                                                        onChange={() => toggleArticlePreference(category.name)} />
+                                                ) : (<div className={`w-4 h-4 border rounded ${profileData.articlePreferences.includes(category.name)
+                                                    ? "bg-primary border-primary"
+                                                    : "border-gray-300"
+                                                    }`} />)}
+                                                <IconComponent className="text-gray-500" size={20} />
+                                                <span className="text-sm">{category.name}</span>
+                                            </div>
+                                        )
+                                    })}
+
+                                    {/* {profileData.articlePreferences.map((lang) => (
+                                        <label key={lang} className="inline-flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                name="articlePreferencesD"
+                                                value={lang}
+                                                onChange={handleChange}
+                                                className="form-checkbox"
+                                                checked
+                                            />
+                                            <span className="ml-2">{lang}</span>
+                                        </label>
+                                    ))} */}
+                                </div>
+
                             </div>
                         </div>
                     </section>

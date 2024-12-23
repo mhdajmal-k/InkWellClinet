@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { crateBlog, loginUser, signUpUser } from "./userThunk";
+import {
+  crateBlog,
+  fetchOneBlog,
+  getUserBlogs,
+  loginUser,
+  signUpUser,
+} from "./userThunk";
 
 const initialState = {
   userInfo: null,
@@ -50,6 +56,28 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(crateBlog.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as any;
+        // state.error = actions.payload.message;
+      })
+      .addCase(fetchOneBlog.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOneBlog.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchOneBlog.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as any;
+        // state.error = actions.payload.message;
+      })
+      .addCase(getUserBlogs.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserBlogs.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getUserBlogs.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as any;
         // state.error = actions.payload.message;
