@@ -225,11 +225,8 @@ const SignUpForm: React.FC = () => {
                             </button>
                         </div>
                         <Button onClick={() => {
-                            if (preferredArticles.length === 0) {
-                                onOpen();
-                                setShowModal(true);
-                                return;
-                            }
+                            onOpen();
+                            setShowModal(true);
 
                         }}>
                             Add Preference
@@ -279,7 +276,7 @@ const SignUpForm: React.FC = () => {
                         {preferredArticleCategories.length > 0 ? (
                             <div className="grid grid-cols-2 gap-4">
                                 {preferredArticleCategories.map((category) => {
-                                    const IconComponent = category.Icon; // Get the icon component
+                                    const IconComponent = category.Icon;
                                     return (
                                         <div key={category.name} className="flex items-center gap-2">
                                             <div className="w-1/4">

@@ -52,14 +52,14 @@ const LikeButton: React.FC<BlogListingProps> = ({ blogId, like, dislike }) => {
                 onClick={handleLike}
                 style={{ color: userLiked ? "blue" : "black" }}
             >
-                👍 Like {likeCount}
+                👍 Like {likeCount || like}
             </Button>
             <Button
                 className="mx-3"
                 onClick={handleDislike}
                 style={{ color: userDisliked ? "red" : "black" }}
             >
-                👎 Dislike {dislikeCount}
+                👎 Dislike {dislikeCount || dislike}
             </Button>
         </div>
     );

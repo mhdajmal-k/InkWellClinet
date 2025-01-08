@@ -5,18 +5,39 @@ import { BlogType } from "../../utils/types/blogType";
 import BlogWriteButton from "./blogWriteButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { useCallback, useRef, useState } from "react";
 
 interface BlogListingProps {
     blogs: BlogType[];
     preference: string[];
     who: string;
+    onLoadMore: (page: number) => Promise<void>;
+    hasMore: boolean;
 
 }
 
-export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who }) => {
+export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who, hasMore, onLoadMore }) => {
     const navigate = useNavigate();
-
+    const [page, setPage] = useState(1);
     const { loading, } = useSelector((state: RootState) => state.user);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const observer = useRef<IntersectionObserver | null>(null);
+    const lastBlogElementRef = useCallback((node: HTMLDivElement | null) => {
+        if (loading || isLoadingMore) return;
+        if (observer.current) observer.current.disconnect();
+
+        observer.current = new IntersectionObserver(async (entries) => {
+            if (entries[0].isIntersecting && hasMore) {
+                setIsLoadingMore(true);
+                const nextPage = page + 1;
+                await onLoadMore(nextPage);
+                setPage(nextPage);
+                setIsLoadingMore(false);
+            }
+        });
+
+        if (node) observer.current.observe(node);
+    }, [loading, isLoadingMore, hasMore, page, onLoadMore]);
 
     return (
         <div className="container p-4 min-h-screen">
@@ -35,7 +56,7 @@ export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who
                 </div>
             </div>
             <div className="max-w-[90%] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 my-6">
-                {loading ? (
+                {loading && page == 1 ? (
                     Array.from({ length: 4 }).map((_, index) => (
                         <Card
                             key={index}
@@ -65,6 +86,8 @@ export const BlogListing: React.FC<BlogListingProps> = ({ blogs, preference, who
                     blogs.map((value, index) => (
                         <Card
                             key={index}
+                            ref={index === blogs.length - 1 ? lastBlogElementRef : null}
+
                             className="w-full transition-transform hover:scale-100 shadow-lg rounded-lg overflow-hidden"
                         >
                             <div className="flex">

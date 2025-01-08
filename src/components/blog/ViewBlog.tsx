@@ -30,7 +30,7 @@ const ViewOneBlog: React.FC<BlogListingProps> = ({ blogs }) => {
             ) : error ? (
                 <div className="text-red-500 text-center">Failed to load blog content.</div>
             ) : (
-                <article className="md:max-w-5xl max-w-sm mx-auto pt-8 container bg-white mt-5 px-10 shadow-lg rounded-lg">
+                <article className="md:max-w-5xl max-w-sm mx-auto pt-8 container pb-4 bg-white mt-5 px-10 shadow-lg rounded-lg">
                     <header className="space-y-6 mb-5">
                         <h1 className="my-5 text-blue-gray-700 text-3xl font-bold">
                             {blogs?.title}
@@ -48,7 +48,7 @@ const ViewOneBlog: React.FC<BlogListingProps> = ({ blogs }) => {
                             </span>
                         </div>
                     </header>
-                    <div className="prose prose-gray max-w-none">
+                    <div className="prose prose-gray max-w-none ">
                         <Image
                             src={blogs?.image}
                             alt="error"
@@ -56,11 +56,14 @@ const ViewOneBlog: React.FC<BlogListingProps> = ({ blogs }) => {
                             height={400}
                             className="rounded-lg mb-8 w-full object-cover"
                         />
-                        {paragraphs?.map((paragraph, index) => (
-                            <p key={index} className="mb-4 leading-relaxed text-gray-700">
-                                {paragraph}
-                            </p>
-                        ))}
+                        <div>
+                            {paragraphs?.map((paragraph, index) => (
+                                <p key={index} className="mb-4 leading-relaxed  text-gray-700 ">
+                                    {paragraph}
+                                </p>
+                            ))}
+                        </div>
+
                     </div>
                 </article>
             )}

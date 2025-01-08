@@ -46,6 +46,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, actions) => {
         state.loading = false;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         state.error = actions.payload as any;
         // state.error = actions.payload.message;
       })

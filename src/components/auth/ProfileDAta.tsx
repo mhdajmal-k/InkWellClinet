@@ -63,6 +63,11 @@ const ProfileDisplay = () => {
             [name]: value,
         }));
     };
+    const formatDateForInput = (dateString: string) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0];
+    };
     const toggleArticlePreference = (category: string) => {
         setProfileData((preData) => {
             const updatedPreferences = preData.articlePreferences.includes(category) ? preData.articlePreferences.filter(pre => pre !== category) : [...preData.articlePreferences, category]
@@ -150,7 +155,7 @@ const ProfileDisplay = () => {
                                     <Input
                                         type="date"
                                         name="dob"
-                                        value={profileData.dob}
+                                        value={formatDateForInput(profileData.dob)}
                                         onChange={handleChange}
                                         className="border p-2 rounded"
                                     />

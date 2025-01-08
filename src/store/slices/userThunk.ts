@@ -141,9 +141,17 @@ export const crateBlog = createAsyncThunk(
 );
 export const getBlogs = createAsyncThunk(
   "user/getBlogs",
-  async (_, { rejectWithValue }) => {
+  async (
+    { page, limit }: { page: number; limit: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await axiosInstance.get(GETBLOGS);
+      const response = await axiosInstance.get(GETBLOGS, {
+        params: {
+          page,
+          limit,
+        },
+      });
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -160,9 +168,17 @@ export const getBlogs = createAsyncThunk(
 );
 export const getUserBlogs = createAsyncThunk(
   "user/getBlogs",
-  async (_, { rejectWithValue }) => {
+  async (
+    { page, limit }: { page: number; limit: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await axiosInstance.get(GETUSERBLOGS);
+      const response = await axiosInstance.get(GETUSERBLOGS, {
+        params: {
+          page,
+          limit,
+        },
+      });
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";

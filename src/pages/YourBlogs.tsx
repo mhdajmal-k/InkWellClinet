@@ -12,17 +12,23 @@ import { toast } from 'sonner'
 
 const DashBoard: React.FC = () => {
     const [blogs, setBlogs] = useState<BlogType[]>([]);
+    const [hasMore, setHasMore] = useState(true);
     const dispatch: AppDispatch = useDispatch();
     useEffect(() => {
 
-        fetchBlogs();
+        fetchBlogs(1);
     }, []);
 
-    const fetchBlogs = async () => {
+    const fetchBlogs = async (page: number) => {
         try {
-            const response = await dispatch(getUserBlogs()).unwrap();
-            setBlogs(response.result.blogs);
-
+            const response = await dispatch(getUserBlogs({ page, limit: 2 })).unwrap();
+            if (page === 1) {
+                setBlogs(response.result.blogs);
+                // setPreferences(response.result.preferences);
+            } else {
+                setBlogs(prev => [...prev, ...response.result.blogs]);
+            }
+            setHasMore(response.hasMore);
         } catch (error: any) {
             toast(<CustomToast message={error.message || 'Failed to fetch blog'} type="error" />);
 
@@ -32,7 +38,7 @@ const DashBoard: React.FC = () => {
 
     return (
         <div><NavBar />
-            <BlogListing blogs={blogs} preference={[]} who={"author"} />
+            <BlogListing blogs={blogs} preference={[]} who={"author"} hasMore={hasMore} onLoadMore={fetchBlogs} />
             <Footer />
 
         </div>
